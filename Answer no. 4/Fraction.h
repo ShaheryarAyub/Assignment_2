@@ -16,7 +16,7 @@ public:
         if (d == 0)
         {
             cout << "Error: Attempting to Divide by Zero" << endl;
-            exit(0); // it will terminate the program if division by 0 is attempted
+            exit(0); 
         }
         else
             deno = d;
