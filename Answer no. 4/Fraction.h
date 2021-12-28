@@ -1,46 +1,30 @@
 #pragma once
+
 using namespace std;
 
 class Fraction
 {
-public:
+private:
     long num, deno;
-    Fraction()
-    {
-        num = 0;
-        deno = 1;
-    }
-    Fraction(int n, int d)
-    {
-        num = n;
-        if (d == 0)
-        {
-            cout << "Error: Attempting to Divide by Zero" << endl;
-            exit(0); 
-        }
-        else
-            deno = d;
-    }
-
+public:
+    Fraction();
+    Fraction(int n, int d);
     friend Fraction operator+ (const Fraction& f1, const Fraction& f2);
     friend Fraction operator- (const Fraction& f1, const Fraction& f2);
     friend Fraction operator* (const Fraction& f1, const Fraction& f2);
     friend Fraction operator/ (const Fraction& f1, const Fraction& f2);
-    Fraction operator+= (const Fraction f1);
-    Fraction operator-= (const Fraction f1);
-    Fraction operator- (const Fraction f1);    
-    friend Fraction operator-- (const Fraction& f1);
-    friend Fraction operator++ (Fraction& f1);
     friend ostream& operator<< (ostream&, const Fraction&);
-    friend istream& operator>> (istream&, Fraction&); 
+    friend istream& operator>> (istream&, Fraction&);
 
-    void accept()
-    {
-        cout << "\n Enter Numerator     :  ";
-        cin >> num;
-        cout << "\n Enter Denominator   :  ";
-        cin >> deno;
-    }
-    void show();   
-        
+    Fraction& operator+=(const int&);
+    Fraction& operator+=(const Fraction&);
+    Fraction& operator-=(const Fraction&);
+    Fraction& operator-=(const int&);
+    Fraction& operator--();
+    Fraction& operator++();
+    Fraction& operator-();
+    Fraction& operator=(const int& i);
+  
+    void show();
+    void accept();
 };
