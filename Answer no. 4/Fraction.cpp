@@ -3,93 +3,114 @@
 
 using namespace std;
 
+Fraction::Fraction()
+{
+    num = 0;
+    deno = 1;
+}
+Fraction:: Fraction(int n, int d)
+{
+    num = n;
+    if (d == 0)
+    {
+        cout << "Error: Attempting to Divide by Zero" << endl;
+        exit(0);
+    }
+    else
+        deno = d;
+}
+
 Fraction operator+ (const Fraction& f1, const Fraction& f2)
 {
-    Fraction r;   
+    Fraction r;
     r.num = (f1.num * f2.deno)
-          + (f2.num * f1.deno);   
+        + (f2.num * f1.deno);
     r.deno = f1.deno * f2.deno;
-    return r; 
+    return r;
 }
+
 Fraction operator- (const Fraction& f1, const Fraction& f2)
 {
-    Fraction r;     
+    Fraction r;
     r.num = (f1.num * f2.deno)
-        - (f2.num * f1.deno);   
+        - (f2.num * f1.deno);
     r.deno = f1.deno * f2.deno;
-    return r;        
+    return r;
 }
 
 Fraction operator* (const Fraction& f1, const Fraction& f2)
 {
-    Fraction r;   
-    r.num = (f1.num * f2.num);   
+    Fraction r;
+    r.num = (f1.num * f2.num);
     r.deno = f1.deno * f2.deno;
-    return r;    
+    return r;
 }
+
 Fraction operator/ (const Fraction& f1, const Fraction& f2)
 {
-    Fraction r;  
-    r.num = (f1.num * f2.deno);    
+    Fraction r;
+    r.num = (f1.num * f2.deno);
     r.deno = f1.deno * f2.num;
-    return r;  
-}
-
-Fraction operator-- (const Fraction& f1)
-{
-    Fraction r;
-    r.num = f1.num - f1.deno;
-    r.deno = f1.deno;
     return r;
 }
 
-Fraction operator++ (Fraction& f1)
-{
-    Fraction r;
-    r.num = f1.num + f1.deno;
-    r.deno = f1.deno;
-    return r;
+Fraction& Fraction::operator+=(const Fraction& f) {
+    *this = (*this) + f;
+    return(*this);
 }
 
-Fraction Fraction::operator+=(const Fraction f1)
-{
-    {
-        Fraction r;
-        r.num = (f1.num * 2)
-            + (f1.deno);
-        r.deno = f1.deno * 2;
-        return r;
-    }
-   
+Fraction& Fraction::operator+=(const int& i) {
+    this->num = this->num + (i * this->deno);
+    this->deno = this->deno;
+    return(*this);
 }
 
-Fraction Fraction::operator-=(const Fraction f1)
-{
-    {
-        Fraction r;
-        r.num = (f1.num * 2)
-            - (f1.deno);
-        r.deno = f1.deno * 2;
-        return r;
-    }
+Fraction& Fraction::operator-=(const Fraction& f) {
+    *this = (*this) - f;
+    return(*this);
 }
 
-Fraction Fraction :: operator- (const Fraction f1)
+Fraction& Fraction::operator-=(const int& i) {
+    this->num = this->num - (i * this->deno);
+    this->deno = this->deno;
+    return(*this);
+}
+
+Fraction& Fraction:: operator--() {
+    *this -= 1;
+    return (*this);
+}
+
+Fraction& Fraction:: operator++()
 {
-    {
-        Fraction r;
-        r.num = -(f1.num) ;
-        r.deno = -(f1.deno );
-        return r;
-    }
+    *this += 1;
+    return (*this);
+}
+
+Fraction& Fraction::operator=(const int& i)
+{
+    this->num = this->num;
+    this->deno = this->deno;
+    return(*this);
+}
+
+Fraction& Fraction :: operator-()
+{
+    *this = (-deno);
+    return (*this);
 }
 
 void Fraction::show()
 {
-    cout << "Numerator is: " << num;
-    cout << "Enter Denominator: "<<deno;
+    cout << "Result of Two Numbers is : " << num << "/" << deno << endl;
 }
-
+void Fraction :: accept()
+{
+    cout << "\n Enter Numerator     :  ";
+    cin >> num;
+    cout << "\n Enter Denominator   :  ";
+    cin >> deno;
+}
 ostream& operator << (ostream& os, const Fraction& f1)
 {
     if (f1.num == f1.deno) {
@@ -102,33 +123,19 @@ ostream& operator << (ostream& os, const Fraction& f1)
     return os;
 }
 
-istream& operator >> (istream& is, Fraction& fraction)
+istream& operator>>(istream& in, Fraction& x)
 {
-    int newNumerator;
-    int newDenominator = 1;
-    bool isCorrect = false;
-    while (!isCorrect) 
+    char ch;
+    while (1)
     {
-        is >> newNumerator;
-        char value;
-        is.get(value);
-        if (!is.eof()) 
-        {
-            if (value == '/') 
-            
-            {
-                is >> newDenominator;
-                isCorrect = true;
-            }
-            else 
-            {
-                is.putback(value);
-                is.clear();
-                is.ignore();
-            }
-        }
+        cin >> x.num >> ch >> x.deno;
+        if (x.deno == 0)
+            cout << "denominator is 0, please re-enter \ n";
+        else if (ch != '/')
+           cout<<"format error(e.g.m / n)!Please re - enter \ n";
+        else
+            break;
     }
-    fraction = Fraction(newNumerator, newDenominator);
-    return is;
+    return cin;
 }
 
